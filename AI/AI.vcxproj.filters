@@ -11,6 +11,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="gameMaster.cpp" />
     <ClCompile Include="agent.cpp" />
+    <ClCompile Include="QTableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="gameMaster.h" />
     <ClInclude Include="agent.h" />
+    <ClInclude Include="QTableComponent.h" />
   </ItemGroup>
 </Project>

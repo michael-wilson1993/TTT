@@ -1,4 +1,8 @@
 #pragma once
+using namespace System;
+#include "../AI/gameMaster.h"
+#include <string>
+#include <iostream>
 
 namespace TTT {
 
@@ -159,9 +163,12 @@ namespace TTT {
 			// numericUpDown1
 			// 
 			this->numericUpDown1->Location = System::Drawing::Point(278, 15);
+			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1410065408, 2, 0, 0 });
+			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(33, 20);
 			this->numericUpDown1->TabIndex = 9;
+			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			// 
 			// runButton
 			// 
@@ -171,6 +178,7 @@ namespace TTT {
 			this->runButton->TabIndex = 10;
 			this->runButton->Text = L"run";
 			this->runButton->UseVisualStyleBackColor = true;
+			this->runButton->Click += gcnew System::EventHandler(this, &UI::runButton_Click);
 			// 
 			// gamesPlayedLabel
 			// 
@@ -246,5 +254,11 @@ namespace TTT {
 
 		}
 #pragma endregion
-	};
+		public:
+			gameMaster *game = new gameMaster();
+	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		label1->Text = gcnew String(game->playMultiGames((int)numericUpDown1->Value).c_str());
+	}
+};
 }

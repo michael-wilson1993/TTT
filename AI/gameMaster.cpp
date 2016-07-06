@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "gameMaster.h"
-
+#include <string>
 
 gameMaster::gameMaster()
 {
-	p1 = new agent;
-	p2 = new agent;
+	p1 = new agent(1);
+	p2 = new agent(2);
 }
 
 bool gameMaster::clearAgent()
@@ -14,34 +14,28 @@ bool gameMaster::clearAgent()
 		delete p1;
 	if (p2 != nullptr)
 		delete p2;
-	p1 = new agent;
-	p2 = new agent;
+	p1 = new agent(1);
+	p2 = new agent(2);
 	return true;
 }
 
-int gameMaster::playgame()
+std::string gameMaster::playgame()
 {
-	int state = 333333333, winningReward = 10;
+	std::string state = "000000000";
 	while (true)
 	{
 		state = p1->Play(state);
-		if (CheckWinner(state, 1) == 1) // checks if player one wins
-		{
-			p1->winner(winningReward);
+		if (CheckWinner(state)) // checks if player one wins
 			break;
-		}
 		state = p2->Play(state);
-		if (CheckWinner(state, 2) == 2) // checks if player one wins
-		{
-			p2->winner(winningReward);
+		if (CheckWinner(state)) // checks if player one wins
 			break;
-		}
 	}
-
-	return 0;
+	gamesplayed++; 
+	return state;
 }
 
-int gameMaster::playMultiGames(int amountOfGames)
+std::string  gameMaster::playMultiGames(int amountOfGames)
 {
 	for (int x = 0; x < amountOfGames-1; x++)
 		playgame(); // plays the bulk of the games
@@ -54,19 +48,19 @@ int gameMaster::humanVsPCMove(int state)
 }
 
 
-int gameMaster::CheckWinner(int state, int pID)
+bool gameMaster::CheckWinner(std::string state)
 {
-	std::string gameState = std::to_string(state);
+	std::string gameState = state;
 	for (int x = 0; x < 3; x++)
 	{
-		if (gameState.at(x*3) == pID && gameState.at((x*3) + 1) == pID && gameState.at((x*3) + 2) == pID)
-			return pID;
-		if (gameState.at(x) == pID && gameState.at(x+3) == pID && gameState.at(x+6) == pID)
-			return pID;
+		if (gameState.at(x*3) ==  gameState.at((x*3) + 1) && gameState.at((x*3) + 2) == gameState.at((x * 3) + 1) && gameState.at((x * 3) + 1) != '0')
+			return true;
+		if (gameState.at(x) == gameState.at(x+3)  && gameState.at(x+6) == gameState.at(x + 3) && gameState.at(x + 3) != '0')
+			return true;
 	}
-	if (gameState.at(0) == pID && gameState.at(4) == pID && gameState.at(8) == pID)
-		return pID;
-	if (gameState.at(2) == pID && gameState.at(4) == pID && gameState.at(6) == pID)
-		return pID;
-	return 0;
+	if (gameState.at(0) == gameState.at(4)  && gameState.at(8) == gameState.at(4) && gameState.at(4) != '0')
+		return true;
+	if (gameState.at(2) ==  gameState.at(4)  && gameState.at(6) == gameState.at(4) && gameState.at(4) != '0')
+		return true;
+	return false;
 }

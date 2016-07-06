@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TTT", "TTT\TTT.vcxproj", "{CA140D48-1D80-4BE0-87EB-51979FA5386B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1BA33AC2-6AC7-459F-91EE-F9434D391374} = {1BA33AC2-6AC7-459F-91EE-F9434D391374}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AI", "AI\AI.vcxproj", "{1BA33AC2-6AC7-459F-91EE-F9434D391374}"
 EndProject
