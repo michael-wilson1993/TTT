@@ -21,4 +21,7 @@
     <ClInclude Include="agent.h" />
     <ClInclude Include="QTableComponent.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="NatvisFile.natvis" />
+  </ItemGroup>
 </Project>

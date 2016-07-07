@@ -206,6 +206,7 @@ namespace TTT {
 			this->button10->TabIndex = 13;
 			this->button10->Text = L"Clear Agents";
 			this->button10->UseVisualStyleBackColor = true;
+			this->button10->Click += gcnew System::EventHandler(this, &UI::button10_Click);
 			// 
 			// label1
 			// 
@@ -258,7 +259,12 @@ namespace TTT {
 			gameMaster *game = new gameMaster();
 	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
-		label1->Text = gcnew String(game->playMultiGames((int)numericUpDown1->Value).c_str());
+		label1->Text = gcnew String(game->playMultiGames((int)numericUpDown1->Value).c_str()); // testing purpose... delete later
+		gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
 	}
+private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->clearAgent();
+	gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
+}
 };
 }
