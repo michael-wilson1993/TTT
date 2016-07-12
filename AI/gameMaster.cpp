@@ -4,8 +4,8 @@
 
 gameMaster::gameMaster()
 {
-	p1 = new agent('1');
-	p2 = new agent('2');
+	p1 = new agent('1', '2');
+	p2 = new agent('2','1');
 }
 
 bool gameMaster::clearAgent()
@@ -14,25 +14,73 @@ bool gameMaster::clearAgent()
 		delete p1;
 	if (p2 != nullptr)
 		delete p2;
-	p1 = new agent('1');
-	p2 = new agent('2');
+	p1 = new agent('1', '2');
+	p2 = new agent('2', '1');
 	gamesplayed = 0;
 
 	return true;
 }
 
+bool ifValidMove(std::string state, int move)
+{
+	if (state[move] == 0)
+		return true;
+	return false;
+}
+
 std::string gameMaster::playgame()
 {
-	std::string state = "000000000";
-	while (true)
+	state = "000000000";
+	int move, counter = 0;
+	int winnerId = 0;
+	while (counter != 8)
 	{
-		state = p1->Play(state);
+		if (!counter)
+			p1->rewardAgent(state, 0);
+		move = p1->Play(state);
+		while (!ifValidMove(state, move))
+		{
+			p1->rewardAgent(state, -1000);
+			move = p1->Play(state);
+		}
+		
 		if (CheckWinner(state)) // checks if player one wins
+		{
+			winnerId = 1;
 			break;
-		state = p2->Play(state);
-
+		}
+		if (counter == 8)
+			break;
+		if(!counter)
+			p2->rewardAgent(state, 0);
+		move = p2->Play(state);
+		while (!ifValidMove(state, move))
+		{
+			p2->rewardAgent(state, -1000);
+			move = p2->Play(state);
+		}
+		
 		if (CheckWinner(state)) // checks if player one wins
+		{
+			winnerId = 2;
 			break;
+		}
+		counter += 2;
+	}
+	if (winnerId == 1)
+	{
+		p1->rewardAgent(state, 10);
+		p2->rewardAgent(state, -10);
+	}
+	else if (winnerId == 2)
+	{
+		p2->rewardAgent(state, 10);
+		p1->rewardAgent(state, -10);
+	}
+	else
+	{
+		p2->rewardAgent(state, 1);
+		p1->rewardAgent(state, 1);
 	}
 
 
@@ -61,38 +109,21 @@ bool gameMaster::CheckWinner(std::string state)
 	for (int x = 0; x < 3; x++)
 	{
 		if (gameState.at(x * 3) == gameState.at((x * 3) + 1) && gameState.at((x * 3) + 2) == gameState.at((x * 3) + 1) && gameState.at((x * 3) + 1) != '0') // check colums
-			winnersID = gameState.at(x * 3);
+			return true;
 		if (gameState.at(x) == gameState.at(x + 3) && gameState.at(x + 6) == gameState.at(x + 3) && gameState.at(x + 3) != '0') // checks rows
-			winnersID = gameState.at(x);
+			return true;
 	}
 	if (gameState.at(0) == gameState.at(4) && gameState.at(8) == gameState.at(4) && gameState.at(4) != '0') // checks diagonal
-		winnersID = gameState.at(0);
-	if (gameState.at(2) == gameState.at(4) && gameState.at(6) == gameState.at(4) && gameState.at(4) != '0') // checks diagonal
-		winnersID = gameState.at(0);
-
-
-	if (winnersID != 'x') // if winnersid != 'x' that means there was a winner
-	{
-		if (winnersID == '1')
-		{
-			p1->winner(10);
-			p2->punish();
-			return true;
-		}
-		else if (winnersID == '2')
-		{
-			p2->winner(10);
-			p1->punish();
-			return true;
-		}
-	}
-
-	// this part of code checks if the board is complete. if it is full and there is no winner than we have to end the game. this will not punish iether agent
-	int tieCounter = 0;
-	for (int x = 0; x < gameState.size(); x++)
-		if (gameState.at(x) == '0')
-			tieCounter++;
-	if (tieCounter == 0)
 		return true;
+	if (gameState.at(2) == gameState.at(4) && gameState.at(6) == gameState.at(4) && gameState.at(4) != '0') // checks diagonal
+		return true;
+
 	return false;
+}
+
+std::string gameMaster::getPos(int x)
+{
+	std::string position = "0";
+	position[0] = state.at(x);
+	return position;
 }

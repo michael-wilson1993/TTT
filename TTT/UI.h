@@ -168,7 +168,7 @@ namespace TTT {
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(33, 20);
 			this->numericUpDown1->TabIndex = 9;
-			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
 			// 
 			// runButton
 			// 
@@ -220,6 +220,8 @@ namespace TTT {
 			// checkBox1
 			// 
 			this->checkBox1->AutoSize = true;
+			this->checkBox1->Checked = true;
+			this->checkBox1->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->checkBox1->Location = System::Drawing::Point(273, 59);
 			this->checkBox1->Name = L"checkBox1";
 			this->checkBox1->Size = System::Drawing::Size(15, 14);
@@ -258,13 +260,29 @@ namespace TTT {
 		public:
 			gameMaster *game = new gameMaster();
 	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
-
-		label1->Text = gcnew String(game->playMultiGames((int)numericUpDown1->Value).c_str()); // testing purpose... delete later
-		gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
+		for (int x = 0; x < (int)numericUpDown1->Value; x++)
+		{
+			game->playgame(); // plays game
+			gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
+			if (checkBox1->Checked)
+			{
+				button1->Text = gcnew String(game->getPos(0).c_str());
+				button2->Text = gcnew String(game->getPos(1).c_str());
+				button3->Text = gcnew String(game->getPos(2).c_str());
+				button4->Text = gcnew String(game->getPos(3).c_str());
+				button5->Text = gcnew String(game->getPos(4).c_str());
+				button6->Text = gcnew String(game->getPos(5).c_str());
+				button7->Text = gcnew String(game->getPos(6).c_str());
+				button8->Text = gcnew String(game->getPos(7).c_str());
+				button9->Text = gcnew String(game->getPos(8).c_str());
+				Update();
+			}
+		}
 	}
 private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
 	game->clearAgent();
 	gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
+
 }
 };
 }
