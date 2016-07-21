@@ -5,7 +5,8 @@
 gameMaster::gameMaster()
 {
 	p1 = new agent('1', '2');
-	p2 = new agent('2','1');
+	p2 = new agent('2', '1');
+	state = "000000000";
 }
 
 bool gameMaster::clearAgent()
@@ -23,27 +24,37 @@ bool gameMaster::clearAgent()
 
 bool ifValidMove(std::string state, int move)
 {
-	if (state[move] == 0)
+	if (state[move] == '0')
 		return true;
 	return false;
+}
+
+void makeMove(std::string &state, int move, char id)
+{
+	state[move] = id;
 }
 
 std::string gameMaster::playgame()
 {
 	state = "000000000";
 	int move, counter = 0;
+	int moveReward = 0, tieReward = 1, winReward = 10, loseReward = -10, wrongMove = -10000000;
 	int winnerId = 0;
 	while (counter != 8)
 	{
-		if (!counter)
-			p1->rewardAgent(state, 0);
+		if (counter)
+		{
+			p1->updateStatePrime(state);
+			p1->rewardAgent(state, moveReward);
+		}
 		move = p1->Play(state);
 		while (!ifValidMove(state, move))
 		{
-			p1->rewardAgent(state, -1000);
+			p1->rewardAgent(state, wrongMove);
 			move = p1->Play(state);
 		}
-		
+		makeMove(state, move, '1'); // does the move for player one
+
 		if (CheckWinner(state)) // checks if player one wins
 		{
 			winnerId = 1;
@@ -51,15 +62,19 @@ std::string gameMaster::playgame()
 		}
 		if (counter == 8)
 			break;
-		if(!counter)
-			p2->rewardAgent(state, 0);
+		if (counter)
+		{
+			p1->updateStatePrime(state);
+			p2->rewardAgent(state, moveReward);
+		}
 		move = p2->Play(state);
 		while (!ifValidMove(state, move))
 		{
-			p2->rewardAgent(state, -1000);
+			p2->rewardAgent(state, wrongMove);
 			move = p2->Play(state);
 		}
-		
+		makeMove(state, move, '2'); // does the move for player two
+
 		if (CheckWinner(state)) // checks if player one wins
 		{
 			winnerId = 2;
@@ -69,35 +84,80 @@ std::string gameMaster::playgame()
 	}
 	if (winnerId == 1)
 	{
-		p1->rewardAgent(state, 10);
-		p2->rewardAgent(state, -10);
+		p1->rewardAgent(state, winReward);
+		p2->rewardAgent(state, loseReward);
+		p1_win++;
+		p2_lose++;
 	}
 	else if (winnerId == 2)
 	{
-		p2->rewardAgent(state, 10);
-		p1->rewardAgent(state, -10);
+		p2->rewardAgent(state, winReward);
+		p1->rewardAgent(state, loseReward);
+		p2_win++;
+		p1_lose++;
 	}
 	else
 	{
-		p2->rewardAgent(state, 1);
-		p1->rewardAgent(state, 1);
+		p2->rewardAgent(state, tieReward);
+		p1->rewardAgent(state, tieReward);
+		tie++;
 	}
-
-
-	gamesplayed++; 
+	gamesplayed++;
 	return state;
 }
 
 std::string  gameMaster::playMultiGames(int amountOfGames)
 {
-	for (int x = 0; x < amountOfGames-1; x++)
+	for (int x = 0; x < amountOfGames - 1; x++)
 		playgame(); // plays the bulk of the games
 	return playgame(); // returns the last games state
 }
 
-int gameMaster::humanVsPCMove(int state)
+bool isTied(std::string state)
 {
-	return 0;
+	for (int x = 0; x < state.size(); x++)
+		if (state.at(x) == '0')
+			return false; // not tie!
+	return true; // tie!
+}
+
+std::string gameMaster::humanVsPCMove(int action)
+{
+	std::string ret = state;
+	if (ifValidMove(state, action))
+	{
+		makeMove(state, action, '1');
+		if (CheckWinner(state))
+		{
+			p2->rewardAgent(state, -10);
+			state = "000000000";
+			return ret;
+		}
+		if (isTied(state))
+		{
+			p2->rewardAgent(state, 1);
+			std::string ret = state;
+			state = "000000000";
+			return ret;
+		}
+
+		int move = p2->Play(state);
+		while (!ifValidMove(state, move))
+		{
+			p2->rewardAgent(state, -1000);
+			move = p2->Play(state);
+		}
+		makeMove(state, move, '2'); // does the move for player two
+
+		if (CheckWinner(state))
+		{	
+			p2->rewardAgent(state, 10);
+			std::string ret = state;
+			state = "000000000";
+			return ret;
+		}
+	}
+	return ret;
 }
 
 

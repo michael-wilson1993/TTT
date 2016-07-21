@@ -54,6 +54,18 @@ namespace TTT {
 	private: System::Windows::Forms::Button^  button10;
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::CheckBox^  checkBox1;
+	private: System::Windows::Forms::Button^  button11;
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::Label^  p1_wins;
+	private: System::Windows::Forms::Label^  p1_lose;
+	private: System::Windows::Forms::Label^  p1_tie;
+	private: System::Windows::Forms::Label^  p2_tie;
+	private: System::Windows::Forms::Label^  p2_lose;
+
+	private: System::Windows::Forms::Label^  p2_wins;
+	private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::Label^  label4;
+
 	protected:
 
 	private:
@@ -85,6 +97,16 @@ namespace TTT {
 			this->button10 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
+			this->button11 = (gcnew System::Windows::Forms::Button());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->p1_wins = (gcnew System::Windows::Forms::Label());
+			this->p1_lose = (gcnew System::Windows::Forms::Label());
+			this->p1_tie = (gcnew System::Windows::Forms::Label());
+			this->p2_tie = (gcnew System::Windows::Forms::Label());
+			this->p2_lose = (gcnew System::Windows::Forms::Label());
+			this->p2_wins = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -95,6 +117,7 @@ namespace TTT {
 			this->button1->Size = System::Drawing::Size(50, 50);
 			this->button1->TabIndex = 0;
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &UI::button1_Click);
 			// 
 			// button2
 			// 
@@ -103,6 +126,7 @@ namespace TTT {
 			this->button2->Size = System::Drawing::Size(50, 50);
 			this->button2->TabIndex = 1;
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &UI::button2_Click);
 			// 
 			// button3
 			// 
@@ -111,6 +135,7 @@ namespace TTT {
 			this->button3->Size = System::Drawing::Size(50, 50);
 			this->button3->TabIndex = 2;
 			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &UI::button3_Click);
 			// 
 			// button4
 			// 
@@ -119,6 +144,7 @@ namespace TTT {
 			this->button4->Size = System::Drawing::Size(50, 50);
 			this->button4->TabIndex = 3;
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &UI::button4_Click);
 			// 
 			// button5
 			// 
@@ -127,6 +153,7 @@ namespace TTT {
 			this->button5->Size = System::Drawing::Size(50, 50);
 			this->button5->TabIndex = 4;
 			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &UI::button5_Click);
 			// 
 			// button6
 			// 
@@ -135,6 +162,7 @@ namespace TTT {
 			this->button6->Size = System::Drawing::Size(50, 50);
 			this->button6->TabIndex = 5;
 			this->button6->UseVisualStyleBackColor = true;
+			this->button6->Click += gcnew System::EventHandler(this, &UI::button6_Click);
 			// 
 			// button7
 			// 
@@ -143,6 +171,7 @@ namespace TTT {
 			this->button7->Size = System::Drawing::Size(50, 50);
 			this->button7->TabIndex = 6;
 			this->button7->UseVisualStyleBackColor = true;
+			this->button7->Click += gcnew System::EventHandler(this, &UI::button7_Click);
 			// 
 			// button8
 			// 
@@ -151,6 +180,7 @@ namespace TTT {
 			this->button8->Size = System::Drawing::Size(50, 50);
 			this->button8->TabIndex = 7;
 			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &UI::button8_Click);
 			// 
 			// button9
 			// 
@@ -159,6 +189,7 @@ namespace TTT {
 			this->button9->Size = System::Drawing::Size(50, 50);
 			this->button9->TabIndex = 8;
 			this->button9->UseVisualStyleBackColor = true;
+			this->button9->Click += gcnew System::EventHandler(this, &UI::button9_Click);
 			// 
 			// numericUpDown1
 			// 
@@ -166,9 +197,10 @@ namespace TTT {
 			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1410065408, 2, 0, 0 });
 			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(33, 20);
+			this->numericUpDown1->Size = System::Drawing::Size(59, 20);
 			this->numericUpDown1->TabIndex = 9;
 			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 10, 0, 0, 0 });
+			this->numericUpDown1->ValueChanged += gcnew System::EventHandler(this, &UI::numericUpDown1_ValueChanged);
 			// 
 			// runButton
 			// 
@@ -183,7 +215,7 @@ namespace TTT {
 			// gamesPlayedLabel
 			// 
 			this->gamesPlayedLabel->AutoSize = true;
-			this->gamesPlayedLabel->Location = System::Drawing::Point(201, 41);
+			this->gamesPlayedLabel->Location = System::Drawing::Point(226, 42);
 			this->gamesPlayedLabel->Name = L"gamesPlayedLabel";
 			this->gamesPlayedLabel->Size = System::Drawing::Size(76, 13);
 			this->gamesPlayedLabel->TabIndex = 11;
@@ -192,7 +224,7 @@ namespace TTT {
 			// gamesPlayedCounter
 			// 
 			this->gamesPlayedCounter->AutoSize = true;
-			this->gamesPlayedCounter->Location = System::Drawing::Point(276, 41);
+			this->gamesPlayedCounter->Location = System::Drawing::Point(301, 42);
 			this->gamesPlayedCounter->Name = L"gamesPlayedCounter";
 			this->gamesPlayedCounter->Size = System::Drawing::Size(13, 13);
 			this->gamesPlayedCounter->TabIndex = 12;
@@ -200,9 +232,9 @@ namespace TTT {
 			// 
 			// button10
 			// 
-			this->button10->Location = System::Drawing::Point(197, 96);
+			this->button10->Location = System::Drawing::Point(197, 125);
 			this->button10->Name = L"button10";
-			this->button10->Size = System::Drawing::Size(112, 23);
+			this->button10->Size = System::Drawing::Size(142, 23);
 			this->button10->TabIndex = 13;
 			this->button10->Text = L"Clear Agents";
 			this->button10->UseVisualStyleBackColor = true;
@@ -211,7 +243,7 @@ namespace TTT {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(201, 59);
+			this->label1->Location = System::Drawing::Point(225, 106);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(66, 13);
 			this->label1->TabIndex = 14;
@@ -222,17 +254,118 @@ namespace TTT {
 			this->checkBox1->AutoSize = true;
 			this->checkBox1->Checked = true;
 			this->checkBox1->CheckState = System::Windows::Forms::CheckState::Checked;
-			this->checkBox1->Location = System::Drawing::Point(273, 59);
+			this->checkBox1->Location = System::Drawing::Point(297, 106);
 			this->checkBox1->Name = L"checkBox1";
 			this->checkBox1->Size = System::Drawing::Size(15, 14);
 			this->checkBox1->TabIndex = 15;
 			this->checkBox1->UseVisualStyleBackColor = true;
 			// 
+			// button11
+			// 
+			this->button11->Location = System::Drawing::Point(197, 152);
+			this->button11->Name = L"button11";
+			this->button11->Size = System::Drawing::Size(142, 23);
+			this->button11->TabIndex = 16;
+			this->button11->Text = L"clear Board";
+			this->button11->UseVisualStyleBackColor = true;
+			this->button11->Click += gcnew System::EventHandler(this, &UI::button11_Click);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(229, 57);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(97, 13);
+			this->label2->TabIndex = 17;
+			this->label2->Text = L"W           L           T";
+			// 
+			// p1_wins
+			// 
+			this->p1_wins->AutoSize = true;
+			this->p1_wins->Location = System::Drawing::Point(231, 70);
+			this->p1_wins->Name = L"p1_wins";
+			this->p1_wins->Size = System::Drawing::Size(13, 13);
+			this->p1_wins->TabIndex = 18;
+			this->p1_wins->Text = L"0";
+			// 
+			// p1_lose
+			// 
+			this->p1_lose->AutoSize = true;
+			this->p1_lose->Location = System::Drawing::Point(272, 70);
+			this->p1_lose->Name = L"p1_lose";
+			this->p1_lose->Size = System::Drawing::Size(13, 13);
+			this->p1_lose->TabIndex = 19;
+			this->p1_lose->Text = L"0";
+			// 
+			// p1_tie
+			// 
+			this->p1_tie->AutoSize = true;
+			this->p1_tie->Location = System::Drawing::Point(313, 70);
+			this->p1_tie->Name = L"p1_tie";
+			this->p1_tie->Size = System::Drawing::Size(13, 13);
+			this->p1_tie->TabIndex = 20;
+			this->p1_tie->Text = L"0";
+			// 
+			// p2_tie
+			// 
+			this->p2_tie->AutoSize = true;
+			this->p2_tie->Location = System::Drawing::Point(313, 87);
+			this->p2_tie->Name = L"p2_tie";
+			this->p2_tie->Size = System::Drawing::Size(13, 13);
+			this->p2_tie->TabIndex = 23;
+			this->p2_tie->Text = L"0";
+			// 
+			// p2_lose
+			// 
+			this->p2_lose->AutoSize = true;
+			this->p2_lose->Location = System::Drawing::Point(272, 87);
+			this->p2_lose->Name = L"p2_lose";
+			this->p2_lose->Size = System::Drawing::Size(13, 13);
+			this->p2_lose->TabIndex = 22;
+			this->p2_lose->Text = L"0";
+			// 
+			// p2_wins
+			// 
+			this->p2_wins->AutoSize = true;
+			this->p2_wins->Location = System::Drawing::Point(231, 87);
+			this->p2_wins->Name = L"p2_wins";
+			this->p2_wins->Size = System::Drawing::Size(13, 13);
+			this->p2_wins->TabIndex = 21;
+			this->p2_wins->Text = L"0";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(208, 70);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(19, 13);
+			this->label3->TabIndex = 24;
+			this->label3->Text = L"p1";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Location = System::Drawing::Point(209, 86);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(19, 13);
+			this->label4->TabIndex = 25;
+			this->label4->Text = L"p2";
+			// 
 			// UI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(328, 182);
+			this->ClientSize = System::Drawing::Size(349, 198);
+			this->Controls->Add(this->label4);
+			this->Controls->Add(this->label3);
+			this->Controls->Add(this->p2_tie);
+			this->Controls->Add(this->p2_lose);
+			this->Controls->Add(this->p2_wins);
+			this->Controls->Add(this->p1_tie);
+			this->Controls->Add(this->p1_lose);
+			this->Controls->Add(this->p1_wins);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->button11);
 			this->Controls->Add(this->checkBox1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button10);
@@ -258,13 +391,28 @@ namespace TTT {
 		}
 #pragma endregion
 		public:
-			gameMaster *game = new gameMaster();
-	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
-		for (int x = 0; x < (int)numericUpDown1->Value; x++)
-		{
-			game->playgame(); // plays game
-			gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
-			if (checkBox1->Checked)
+			void runGame()
+			{
+				for (int x = 0; x < (int)numericUpDown1->Value; x++)
+				{
+					game->playgame(); // plays game
+					gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
+					p1_wins->Text = gcnew String(std::to_string(game->p1_win).c_str());
+					p1_lose->Text = gcnew String(std::to_string(game->p1_lose).c_str());
+
+					p2_wins->Text = gcnew String(std::to_string(game->p2_win).c_str());
+					p2_lose->Text = gcnew String(std::to_string(game->p2_lose).c_str());
+
+					p1_tie->Text = gcnew String(std::to_string(game->tie).c_str());
+					p2_tie->Text = gcnew String(std::to_string(game->tie).c_str());
+					Update();
+					if (checkBox1->Checked)
+					{
+						drawBoard();
+					}
+				}
+			}
+			void drawBoard()
 			{
 				button1->Text = gcnew String(game->getPos(0).c_str());
 				button2->Text = gcnew String(game->getPos(1).c_str());
@@ -277,12 +425,57 @@ namespace TTT {
 				button9->Text = gcnew String(game->getPos(8).c_str());
 				Update();
 			}
-		}
+			gameMaster *game = new gameMaster();
+	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
+		runGame();
 	}
 private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
 	game->clearAgent();
 	gamesPlayedCounter->Text = gcnew String(std::to_string(game->getGamesPlayed()).c_str());
 
+}
+private: System::Void button11_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->resetState();
+	drawBoard();
+}
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(0);
+	drawBoard();
+}
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(1);
+	drawBoard();
+}
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(2);
+	drawBoard();
+}
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(3);
+	drawBoard();
+}
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(4);
+	drawBoard();
+}
+private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(5);
+	drawBoard();
+}
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(6);
+	drawBoard();
+}
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(7);
+	drawBoard();
+}
+private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
+	game->humanVsPCMove(8);
+	drawBoard();
+}
+private: System::Void numericUpDown1_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	runGame();
 }
 };
 }

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "agent.h"
 #include <string>
+#include <ctime>
+#include <random>
 
 agent::agent()
 {
@@ -12,6 +14,7 @@ agent::agent(char p, char o)
 	OtherPID = o;
 	for (int x = 0; x < 9; x++)
 		defActionTable[x] = 10;
+	srand(time(NULL));
 }
 
 int agent::Play(std::string state)
@@ -23,21 +26,31 @@ int agent::Play(std::string state)
 
 int agent::nextMove(std::string state)
 {
-	int max;
-	int move;
-
-	if (QTable[state].size() == 0)
+	double MaxQValue = 0;
+	int move = 0;
+	int size = QTable[state].size();
+	if ( size == 1)
 	{
 		QTable[state] = defActionTable;
 		return 0;
 	}
 
-	for (int x = 1; x < QTable[state].size(); x++)
+	int randNumber = rand() % 100;
+	if (randNumber > 85)
 	{
-		if (max < QTable[state][x])
+		move = rand()%9;
+		
+	}
+	else
+	{
+		MaxQValue = QTable[state][0];
+		for (int x = 1; x < QTable[state].size(); x++)
 		{
-			max = QTable[state][x];
-			move = x;
+			if (MaxQValue < QTable[state][x])
+			{
+				MaxQValue = QTable[state][x];
+				move = x;
+			}
 		}
 	}
 	return move;
@@ -50,14 +63,40 @@ std::string agent::move(std::string state, int action)
 	return nextState;
 }
 
-int agent::rewardAgent(std::string state, int reward)
+int agent::rewardAgent(std::string state, int rew)
 {
+	//updateStatePrime(state);
+	//reward = rew;
+	//double oldQValue = QTable[last_state][last_action]; // gets the reward/QValue from the state and action we did
+	//double newQValue = maxQ(state);
+	//double QValue = oldQValue + alpha * (reward + lambda * (newQValue - oldQValue)); // calculates the qvalue that will be put into the table with the current state and action 
+	//QTable[last_state][last_action] = QValue;
+	//return 0;
+	updateStatePrime(state);
+	reward = rew;
 	double oldQValue = QTable[last_state][last_action]; // gets the reward/QValue from the state and action we did
 	double newQValue = maxQ(state);
-	double QValue = oldQValue + alpha * (reward + lambda * (newQValue - oldQValue)); // calculates the qvalue that will be put into the table with the current state and action 
+
+	int p = 0;
+	std::string temp = "";
+	std::vector < std::string > table;
+	std::map < std::string, int >::iterator it = Ttable[last_state][last_action].begin();
+	for (int x = 0; x < Ttable[last_state][last_action].size(); x++)
+	{
+		table.push_back(it->first);
+	}
+
+	for (int x = 0; x < table.size(); x++)
+	{
+		p += Ttable[last_state][last_action][table[x]];
+	}
+
+	double QValue = (Ttable[last_state][last_action][state] + c)/p*(Rtable[last_state][last_action][state] + newQValue);
 	QTable[last_state][last_action] = QValue;
 	return 0;
 }
+
+
 
 
 
@@ -89,4 +128,11 @@ int agent::checkWinner(std::string state)
 	if (gameState.at(2) ==  gameState.at(4)  && gameState.at(6) == gameState.at(4) && gameState.at(4) != '0') // checks diagonal
 		winnersID = gameState.at(0);
 	return 0;
+}
+
+void agent::updateStatePrime(std::string state)
+{
+	int Rtab = Rtable[last_state][last_action][state];
+	Ttable[last_state][last_action][state]++;
+	Rtable[last_state][last_action][state] = Rtab + (QTable[last_state][last_action] - Rtab) / Ttable[last_state][last_action][state];
 }
